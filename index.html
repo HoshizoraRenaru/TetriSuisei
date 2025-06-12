@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>TETRIS</title>
+  <!-- Minecraft 스타일 CSS 프레임워크 적용 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Jiyath5516F/Minecraft-CSS/dist/minecraft-css-framework-v-1.0.0.css">
+  <style>
+    body {
+      background: #1d1d1d url('https://i.imgur.com/ZbLPJAC.jpeg') repeat; /* 마인크래프트 느낌 배경 */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'hun2', monospace, sans-serif;
+    }
+    .title {
+      font-size: 80px;
+      color: #A8BDFF;
+      text-shadow: 3px 3px 0 #5E91F2, 0 0 20px #ffffff;
+      margin-bottom: 60px;
+      margin-top: -100px;
+      letter-spacing: 0px;
+      font-family: 'hun2', sans-serif;
+      font-weight: 700;
+      transform: scale(1, 1);
+      display: inline-block;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 320px;
+    }
+    .mc-btn_solo {
+      padding: 18px 0;
+      font-size: 28px;
+      border: 4px solid #C4C6C3;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #BFF7FF 0%, #6491DB 100%);
+      color: #24263C;
+      font-family: 'hun2', sans-serif;
+      font-weight: 700;
+      box-shadow: 0 4px #FFF7D0, 0 8px 16px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .mc-btn_solo:hover {
+      background: linear-gradient(180deg, #ffef7d 0%, #5986EA 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .mc-btn_multiplayer {
+      padding: 18px 0;
+      font-size: 28px;
+      border: 4px solid #A2A4DA;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #FEDCE4 0%, #F3ADD6 100%);
+      color: #3C2C6E;
+      font-family: 'hun2', sans-serif;
+      font-weight: 700;
+      box-shadow: 0 4px #BF9BC9, 0 8px 16px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .mc-btn_multiplayer:hover {
+      background: linear-gradient(180deg, #ffd7f4 0%, #ff76d9 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .mc-btn_settings {
+      padding: 18px 0;
+      font-size: 28px;
+      border: 4px solid #E0369F;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #E9BAFE 0%, #7F69A6 100%);
+      color: #262239;
+      font-family: 'hun2', sans-serif;
+      font-weight: 700;
+      box-shadow: 0 4px #231F2B, 0 8px 16px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .mc-btn_settings:hover {
+      background: linear-gradient(180deg, #e5d3fc 0%, #7f4bc4 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+  </style>
+</head>
+<body>
+<div class="title">TETRISUISEI</div>
+<div class="menu">
+
+  <button class="mc-btn_solo" id="soloBtn">SOLO</button>
+  <script>
+    document.getElementById('soloBtn').onclick = function() {
+      window.location.href = 'singleplayer.html';
+    };
+  </script>
+
+  <button class="mc-btn_multiplayer">MULTIPLAYER</button>
+  <button class="mc-btn_settings">SETTINGS</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SOLO - TETRISUISEI</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* 스크롤 바 제거 */
+    }
+    body {
+      background: #1d1d1d url('https://i.imgur.com/ZbLPJAC.jpeg') no-repeat center center;
+      background-size: cover;
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'hun2', monospace, sans-serif;
+      box-sizing: border-box;
+    }
+    .sp-title {
+      font-size: 80px;
+      color: #A8BDFF;
+      text-shadow: 3px 3px 0 #5E91F2, 0 0 20px #ffffff;
+      margin-bottom: 48px;
+      margin-top: -60px;
+      font-family: 'hun2', sans-serif;
+      font-weight: 700;
+      transform: scale(1, 1);
+      display: inline-block;
+      letter-spacing: 0px;
+    }
+    .sp-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      width: 350px;
+    }
+    .sp-btn {
+      padding: 20px 0;
+      font-size: 26px;
+      border: 4px solid #C4C6C3;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #BFF7FF 0%, #6491DB 100%);
+      color: #24263C;
+      font-family: 'hun2', sans-serif;
+      font-weight: 700;
+      box-shadow: 0 4px #FFF7D0, 0 8px 16px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .sp-btn:hover {
+      background: linear-gradient(180deg, #ffef7d 0%, #5986EA 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+  </style>
+</head>
+<body>
+<div class="sp-title">SOLO</div>
+<div class="sp-menu">
+  <button class="sp-btn" id="40lines">40 LINES</button>
+  <script>
+    document.getElementById('40lines').onclick = function() {
+      window.location.href = '40lines.html';
+    };
+  </script>
+  <button class="sp-btn">BLITZ</button>
+  <button class="sp-btn">CUSTOM</button>
+</div>
+</body>
+</html>
