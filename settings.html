@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tetris Settings</title>
+  <style>
+    body {
+      background: #222;
+      color: #A8BDFF;
+      font-family: 'Consolas', monospace, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      position: relative;
+      padding-top: 60px;
+    }
+    h1 {
+      margin: 40px 0 20px 0;
+      font-size: 2em;
+      text-shadow: 2px 2px 0 #5E91F2;
+    }
+    .back-btn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      background: #5E91F2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 8px #5E91F2;
+      transition: background 0.3s ease;
+      z-index: 1000;
+    }
+    .back-btn:hover {
+      background: #3b5ecf;
+    }
+    .settings-box {
+      background: #181818;
+      border: 2px solid #5E91F2;
+      border-radius: 12px;
+      padding: 32px 40px;
+      margin-top: 20px;
+      min-width: 340px;
+      box-shadow: 0 0 12px #5E91F2;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 22px;
+      font-size: 1.1em;
+      flex-wrap: wrap;
+    }
+    .setting-row label {
+      width: 90px;
+      margin-right: 16px;
+      font-weight: bold;
+      color: #A8BDFF;
+    }
+    .setting-row input[type="text"] {
+      width: 90px;
+      font-size: 1em;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #A8BDFF;
+      background: #222;
+      color: #A8BDFF;
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    .setting-row input[type="range"] {
+      width: 120px;
+      margin-right: 8px;
+    }
+    .unit {
+      color: #aaa;
+      font-size: 0.97em;
+      margin-right: 8px;
+    }
+    .save-btn {
+      margin-top: 18px;
+      padding: 8px 24px;
+      font-size: 1.1em;
+      background: #A8BDFF;
+      color: #181818;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .save-btn:hover {
+      background: #5E91F2;
+      color: #fff;
+    }
+    .info {
+      margin-top: 18px;
+      color: #8ee;
+      font-size: 1em;
+    }
+    .error {
+      color: #ff6b6b;
+    }
+    .slider-value {
+      width: 60px;
+      display: inline-block;
+      text-align: left;
+      font-size: 1em;
+      color: #A8BDFF;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+<button class="back-btn" onclick="goBack()">← 뒤로가기</button>
+<h1>TETRIS SETTINGS</h1>
+<div class="settings-box">
+  <div class="setting-row">
+    <label for="arr">ARR</label>
+    <input id="arr" type="text" placeholder="1.0F or 40ms">
+    <input id="arrRange" type="range" min="0" max="5" step="0.1" value="1">
+    <span id="arrVal" class="slider-value"></span>
+    <span class="unit">(Auto Repeat Rate)</span>
+  </div>
+  <div class="setting-row">
+    <label for="das">DAS</label>
+    <input id="das" type="text" placeholder="10.0F or 150ms">
+    <input id="dasRange" type="range" min="1" max="20" step="0.1" value="10">
+    <span id="dasVal" class="slider-value"></span>
+    <span class="unit">(Delayed Auto Shift)</span>
+  </div>
+  <div class="setting-row">
+    <label for="dcd">DCD</label>
+    <input id="dcd" type="text" placeholder="6.0F or 100ms">
+    <input id="dcdRange" type="range" min="0" max="20" step="0.1" value="6">
+    <span id="dcdVal" class="slider-value"></span>
+    <span class="unit">(Delayed Cancel Delay)</span>
+  </div>
+  <div class="setting-row">
+    <label for="sdf">SDF</label>
+    <input id="sdf" type="text" placeholder="1.0X ~ 0.0X or ∞">
+    <input id="sdfRange" type="range" min="0" max="5" step="0.1" value="1">
+    <span id="sdfVal" class="slider-value"></span>
+    <span class="unit">(Soft Drop Factor)</span>
+  </div>
+  <button class="save-btn" onclick="saveSettings()">SAVE</button>
+  <div class="info" id="info"></div>
+</div>
+<script>
+  function goBack() {
+    window.location.href = 'index.html';
+  }
+
+  const defaultSettings = {
+    arr: '1.0F',
+    das: '10.0F',
+    dcd: '6.0F',
+    sdf: '1.0X'
+  };
+
+  function parseInput(val, type) {
+    val = val.trim().toLowerCase();
+    if (type === 'sdf') {
+      if (val === 'inf' || val === '∞' || val === 'infinite') return Infinity;
+      if (val.endsWith('x')) {
+        let num = parseFloat(val);
+        if (isNaN(num) || num < 0 || num > 5) return null;
+        return parseFloat(num.toFixed(1));
+      }
+      let num = parseFloat(val);
+      if (isNaN(num) || num < 0 || num > 5) return null;
+      return parseFloat(num.toFixed(1));
+    }
+    if (val.endsWith('f')) {
+      let num = parseFloat(val);
+      if (isNaN(num) || num < 0) return null;
+      return +(num * 1000 / 60).toFixed(1);
+    }
+    if (val.endsWith('ms')) {
+      let num = parseFloat(val);
+      if (isNaN(num) || num < 0) return null;
+      return +num.toFixed(1);
+    }
+    let num = parseFloat(val);
+    if (isNaN(num) || num < 0) return null;
+    return +num.toFixed(1);
+  }
+
+  function saveSettings() {
+    const arr = document.getElementById('arr').value || defaultSettings.arr;
+    const das = document.getElementById('das').value || defaultSettings.das;
+    const dcd = document.getElementById('dcd').value || defaultSettings.dcd;
+    const sdf = document.getElementById('sdf').value || defaultSettings.sdf;
+    const arrF = parseFloat(arr);
+    const dasF = parseFloat(das);
+    const dcdF = parseFloat(dcd);
+    const sdfX = (sdf === '∞' || sdf === 'inf' || sdf === 'infinite') ? Infinity : parseFloat(sdf);
+    const arrMs = parseInput(arr, 'arr');
+    const dasMs = parseInput(das, 'das');
+    const dcdMs = parseInput(dcd, 'dcd');
+    const sdfVal = parseInput(sdf, 'sdf');
+    if (
+      arrMs === null || arrF < 0.0 || arrF > 5.0 ||
+      dasMs === null || dasF < 1.0 || dasF > 20.0 ||
+      dcdMs === null || dcdF < 0.0 || dcdF > 20.0 ||
+      (sdfVal === null || (sdfX !== Infinity && (sdfX < 0.0 || sdfX > 5.0)))
+    ) {
+      document.getElementById('info').innerHTML =
+        '<span class="error">유효하지 않은 값이 있습니다.<br>ARR: 0.0~5.0F, DAS: 1.0~20.0F, DCD: 0.0~20.0F, SDF: 0.0~5.0X 또는 ∞</span>';
+      return;
+    }
+    localStorage.setItem('tetris_settings', JSON.stringify({
+      arr: arrMs, das: dasMs, dcd: dcdMs, sdf: (sdfVal === Infinity ? "Infinity" : sdfVal)
+    }));
+    document.getElementById('info').textContent =
+      `저장되었습니다! (ARR: ${arrMs}ms, DAS: ${dasMs}ms, DCD: ${dcdMs}ms, SDF: ${sdfVal === Infinity ? "∞" : sdfVal + "X"})`;
+  }
+
+  function updateSliderFromInput(id, rangeId, valId, type, min, max, step) {
+    const input = document.getElementById(id);
+    const range = document.getElementById(rangeId);
+    const valSpan = document.getElementById(valId);
+    input.addEventListener('input', () => {
+      let v = input.value.trim().toLowerCase();
+      if (type === 'sdf') {
+        if (v === 'inf' || v === '∞' || v === 'infinite') {
+          range.value = min;
+          valSpan.textContent = '∞';
+          return;
+        }
+        let n = parseFloat(v);
+        if (!isNaN(n) && n >= min && n <= max) {
+          range.value = n;
+          valSpan.textContent = n.toFixed(1) + 'X';
+        }
+      } else {
+        let n;
+        if (v.endsWith('f')) n = parseFloat(v);
+        else if (v.endsWith('ms')) n = parseFloat(v) * 60 / 1000;
+        else n = parseFloat(v);
+        if (!isNaN(n) && n >= min && n <= max) {
+          range.value = n;
+          valSpan.textContent = n.toFixed(1) + 'F';
+        }
+      }
+    });
+    range.addEventListener('input', () => {
+      if (type === 'sdf') {
+        if (parseFloat(range.value) === min) {
+          input.value = '∞';
+          valSpan.textContent = '∞';
+        } else {
+          input.value = parseFloat(range.value).toFixed(1) + 'X';
+          valSpan.textContent = parseFloat(range.value).toFixed(1) + 'X';
+        }
+      } else {
+        input.value = parseFloat(range.value).toFixed(1) + 'F';
+        valSpan.textContent = parseFloat(range.value).toFixed(1) + 'F';
+      }
+    });
+  }
+
+  function loadSettings() {
+    let saved = localStorage.getItem('tetris_settings');
+    if (saved) {
+      try {
+        let s = JSON.parse(saved);
+        document.getElementById('arr').value = (s.arr !== undefined) ? (s.arr * 60 / 1000).toFixed(1) + 'F' : defaultSettings.arr;
+        document.getElementById('das').value = (s.das !== undefined) ? (s.das * 60 / 1000).toFixed(1) + 'F' : defaultSettings.das;
+        document.getElementById('dcd').value = (s.dcd !== undefined) ? (s.dcd * 60 / 1000).toFixed(1) + 'F' : defaultSettings.dcd;
+        document.getElementById('sdf').value = (s.sdf !== undefined && s.sdf !== null)
+          ? (s.sdf === Infinity ? '∞' : parseFloat(s.sdf).toFixed(1) + 'X')
+          : defaultSettings.sdf;
+      } catch {}
+    } else {
+      document.getElementById('arr').value = defaultSettings.arr;
+      document.getElementById('das').value = defaultSettings.das;
+      document.getElementById('dcd').value = defaultSettings.dcd;
+      document.getElementById('sdf').value = defaultSettings.sdf;
+    }
+    document.getElementById('arrRange').value = parseFloat(document.getElementById('arr').value) || 1;
+    document.getElementById('dasRange').value = parseFloat(document.getElementById('das').value) || 10;
+    document.getElementById('dcdRange').value = parseFloat(document.getElementById('dcd').value) || 6;
+    let sdfVal = document.getElementById('sdf').value;
+    if (sdfVal === '∞') document.getElementById('sdfRange').value = 0;
+    else document.getElementById('sdfRange').value = parseFloat(sdfVal) || 1;
+    document.getElementById('arrVal').textContent = document.getElementById('arrRange').value + 'F';
+    document.getElementById('dasVal').textContent = document.getElementById('dasRange').value + 'F';
+    document.getElementById('dcdVal').textContent = document.getElementById('dcdRange').value + 'F';
+    document.getElementById('sdfVal').textContent = (document.getElementById('sdfRange').value == 0 ? '∞' : parseFloat(document.getElementById('sdfRange').value).toFixed(1) + 'X');
+  }
+
+  updateSliderFromInput('arr', 'arrRange', 'arrVal', 'arr', 0, 5, 0.1);
+  updateSliderFromInput('das', 'dasRange', 'dasVal', 'das', 1, 20, 0.1);
+  updateSliderFromInput('dcd', 'dcdRange', 'dcdVal', 'dcd', 0, 20, 0.1);
+  updateSliderFromInput('sdf', 'sdfRange', 'sdfVal', 'sdf', 0, 5, 0.1);
+
+  loadSettings();
+</script>
+</body>
+</html>

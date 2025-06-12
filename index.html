@@ -101,7 +101,12 @@
   </script>
 
   <button class="mc-btn_multiplayer">MULTIPLAYER</button>
-  <button class="mc-btn_settings">SETTINGS</button>
+  <button class="mc-btn_settings" id="settingsBtn">SETTINGS</button>
+  <script>
+    document.getElementById('settingsBtn').onclick = function() {
+      window.location.href = 'settings.html';
+    };
+  </script>
 </div>
 </body>
 </html>
