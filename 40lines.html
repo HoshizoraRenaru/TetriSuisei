@@ -558,16 +558,26 @@
   }
 
   function startTimer() {
+    stopTimer(); // 기존 타이머 중지
     timer = 0;
-    document.getElementById('timer').textContent = '0.00';
-    timerInterval = setInterval(()=>{
+    timerInterval = setInterval(() => {
       timer += 0.01;
       document.getElementById('timer').textContent = timer.toFixed(2);
-    },10);
+    }, 10);
   }
+
   function stopTimer() {
-    clearInterval(timerInterval);
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
   }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'r') {
+      startTimer(); // 타이머 다시 시작
+    }
+  });
 
   function finishGame() {
     finished = true;
